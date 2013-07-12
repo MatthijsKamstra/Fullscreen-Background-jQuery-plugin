@@ -50,32 +50,41 @@
     };
 
     function fillBg(selector, parentobj) {
-        var windowHeight = $(window).height();
-        var windowWidth = $(window).width();
 
-        $(selector, parentobj).each(function () {
-            var imgHeight = $(this).attr("height");
-            var imgWidth = $(this).attr("width");
+    	var windowHeight = $(window).height();
+		var windowWidth = $(window).width();
+		
+		var img = new Image();
+		img.src = ($(selector).attr ? $(selector).attr("src") : false) || $(selector).src;
+		$(img).load(function () {
 
-            var newWidth = windowWidth;
-            var newHeight = (windowWidth / imgWidth) * imgHeight;
-            var topMargin = ((newHeight - windowHeight) / 2) * -1;
-            var leftMargin = 0;
+			var imgWidth = this.width;
+			var imgHeight = this.height;
 
-            if (newHeight < windowHeight) {
-                var newWidth = (windowHeight / imgHeight) * imgWidth;
-                var newHeight = windowHeight;
-                var topMargin = 0;
-                var leftMargin = ((newWidth - windowWidth) / 2) * -1;
-            }
+			$(selector, parentobj).each(function () {
 
-            $(this).css({
-                height: newHeight + "px",
-                width: newWidth + "px",
-                marginLeft: leftMargin + "px",
-                marginTop: topMargin + "px",
-                display: "block"
-            });
-        });
-    }
+				var newWidth = windowWidth;
+				var newHeight = (windowWidth / imgWidth) * imgHeight;
+				var topMargin = ((newHeight - windowHeight) / 2) * -1;
+				var leftMargin = 0;
+
+				if (newHeight < windowHeight) {
+					var newWidth = (windowHeight / imgHeight) * imgWidth;
+					var newHeight = windowHeight;
+					var topMargin = 0;
+					var leftMargin = ((newWidth - windowWidth) / 2) * -1;
+				}
+
+				$(this).css({
+					height: newHeight + "px",
+					width: newWidth + "px",
+					marginLeft: leftMargin + "px",
+					marginTop: topMargin + "px",
+					display: "block"
+				});
+			});		
+		});
+		
+	}
+
 })(jQuery);
